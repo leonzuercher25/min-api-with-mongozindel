@@ -7,14 +7,14 @@ builder.Services.Configure<DatabaseSettings>(
     builder.Configuration.GetSection("DatabaseSettings")
 );
 
-var app = builder.Build();
+var appPRtest = builder.Build();
 
-app.MapGet("/", () =>
+appPRtest.MapGet("/", () =>
 {
     return "Minimal API Version 1.0";
 });
 
-app.MapGet("/check", (IOptions<DatabaseSettings> options) =>
+appPRtest.MapGet("/check", (IOptions<DatabaseSettings> options) =>
 {
     try
     {
@@ -29,31 +29,31 @@ app.MapGet("/check", (IOptions<DatabaseSettings> options) =>
     }
 });
 
-app.MapPost("/api/movies", (Movie movie) =>
+appPRtest.MapPost("/api/movies", (Movie movie) =>
 {
     movie.Id ??= Guid.NewGuid().ToString();
     return Results.Created($"/api/movies/{movie.Id}", movie);
 });
 
-app.MapGet("/api/movies", () =>
+appPRtest.MapGet("/api/movies", () =>
 {
     return Results.Ok(new List<Movie>());
 });
 
-app.MapGet("/api/movies/{id}", (string id) =>
+appPRtest.MapGet("/api/movies/{id}", (string id) =>
 {
     return Results.Ok(new Movie { Id = id });
 });
 
-app.MapPut("/api/movies/{id}", (string id, Movie movie) =>
+appPRtest.MapPut("/api/movies/{id}", (string id, Movie movie) =>
 {
     movie.Id = id;
     return Results.Ok(movie);
 });
 
-app.MapDelete("/api/movies/{id}", (string id) =>
+appPRtest.MapDelete("/api/movies/{id}", (string id) =>
 {
     return Results.Ok();
 });
 
-app.Run();
+appPRtest.Run();
